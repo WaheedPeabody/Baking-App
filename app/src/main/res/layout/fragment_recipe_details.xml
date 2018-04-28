@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.RecipesFragment">
+    tools:context=".ui.details.RecipeDetailsFragment">
 
-   <include layout="@layout/list_recipes"/>
+    <include layout="@layout/list_recipe_steps"/>
 
 </FrameLayout>

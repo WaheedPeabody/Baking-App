@@ -1,8 +1,6 @@
-package com.example.waheed.bakingapp.ui;
+package com.example.waheed.bakingapp.ui.details;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -11,30 +9,28 @@ import android.os.Bundle;
 import com.example.waheed.bakingapp.R;
 import com.example.waheed.bakingapp.api.vo.Recipe;
 
-public class MainActivity extends AppCompatActivity implements OnRecipeItemClickListener {
+import java.io.Serializable;
+
+public class RecipeDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_recipe_details);
+
+        Intent intent = getIntent();
 
         if (savedInstanceState == null) {
-            displayRecipesFragment();
+            Recipe recipe = (Recipe) intent.getSerializableExtra(Recipe.EXTRA_RECIPE);
+            displayRecipeDetailsFragment(recipe);
         }
     }
 
-    private void displayRecipesFragment() {
+    private void displayRecipeDetailsFragment(Recipe recipe) {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
-        RecipesFragment fragment = new RecipesFragment();
-        fragmentTransaction.add(R.id.recipesFragmentContainer, fragment);
+        RecipeDetailsFragment fragment = RecipeDetailsFragment.newInstance(recipe);
+        fragmentTransaction.add(R.id.recipeDetailsFragmentContainer, fragment);
         fragmentTransaction.commit();
-    }
-
-    @Override
-    public void onRecipeItemClick(Recipe recipe) {
-        Intent intent = new Intent(this, RecipeDetailsActivity.class);
-        intent.putExtra(Recipe.EXTRA_RECIPE, recipe);
-        startActivity(intent);
     }
 }

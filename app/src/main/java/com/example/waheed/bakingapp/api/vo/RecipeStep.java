@@ -23,4 +23,7 @@ public class RecipeStep implements Serializable {
     @Expose
     private String thumbnailURL;
 
+    public String getShortDescription() {
+        return shortDescription;
+    }
 }

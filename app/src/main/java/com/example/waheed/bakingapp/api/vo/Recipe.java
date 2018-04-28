@@ -36,4 +36,8 @@ public class Recipe implements Serializable {
     public Integer getServings() {
         return servings;
     }
+
+    public List<RecipeStep> getSteps() {
+        return steps;
+    }
 }
