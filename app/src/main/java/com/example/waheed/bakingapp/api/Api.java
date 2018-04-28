@@ -1,5 +1,7 @@
 package com.example.waheed.bakingapp.api;
 
+import com.example.waheed.bakingapp.api.vo.Recipe;
+
 import java.util.List;
 
 import retrofit2.Call;

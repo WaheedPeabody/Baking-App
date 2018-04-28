@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.waheed.bakingapp.api.Api;
 import com.example.waheed.bakingapp.R;
-import com.example.waheed.bakingapp.api.Recipe;
+import com.example.waheed.bakingapp.api.vo.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +25,12 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link RecipesFragment.OnFragmentInteractionListener} interface
+ * {@link OnRecipeItemClickListener} interface
  * to handle interaction events.
  */
 public class RecipesFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+    private OnRecipeItemClickListener mListener;
     private RecipesAdapter adapter;
 
     public RecipesFragment() {
@@ -46,6 +46,15 @@ public class RecipesFragment extends Fragment {
 
         requestRecipes();
         return view;
+    }
+
+    public void setupRecyclerView(View view) {
+        RecyclerView recipesRecyclerView = view.findViewById(R.id.recipesRecyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(
+                getContext(), LinearLayoutManager.VERTICAL, false);
+        this.adapter = new RecipesAdapter(new ArrayList<>(), mListener);
+        recipesRecyclerView.setLayoutManager(layoutManager);
+        recipesRecyclerView.setAdapter(adapter);
     }
 
     private void requestRecipes() {
@@ -65,18 +74,11 @@ public class RecipesFragment extends Fragment {
         });
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnRecipeItemClickListener) {
+            mListener = (OnRecipeItemClickListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -89,17 +91,4 @@ public class RecipesFragment extends Fragment {
         mListener = null;
     }
 
-    public void setupRecyclerView(View view) {
-        RecyclerView recipesRecyclerView = view.findViewById(R.id.recipesRecyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(
-                getContext(), LinearLayoutManager.VERTICAL, false);
-        this.adapter = new RecipesAdapter(new ArrayList<>());
-        recipesRecyclerView.setLayoutManager(layoutManager);
-        recipesRecyclerView.setAdapter(adapter);
-    }
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

@@ -1,5 +1,6 @@
 package com.example.waheed.bakingapp.ui;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,8 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.waheed.bakingapp.R;
+import com.example.waheed.bakingapp.api.vo.Recipe;
 
-public class MainActivity extends AppCompatActivity implements RecipesFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements OnRecipeItemClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +32,9 @@ public class MainActivity extends AppCompatActivity implements RecipesFragment.O
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-
+    public void onRecipeItemClick(Recipe recipe) {
+        Intent intent = new Intent(this, RecipeDetailsActivity.class);
+        intent.putExtra(Recipe.EXTRA_RECIPE, recipe);
+        startActivity(intent);
     }
 }

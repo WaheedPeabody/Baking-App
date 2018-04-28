@@ -1,9 +1,11 @@
-package com.example.waheed.bakingapp.api;
+package com.example.waheed.bakingapp.api.vo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class RecipeStep {
+import java.io.Serializable;
+
+public class RecipeStep implements Serializable {
 
     @SerializedName("id")
     @Expose
