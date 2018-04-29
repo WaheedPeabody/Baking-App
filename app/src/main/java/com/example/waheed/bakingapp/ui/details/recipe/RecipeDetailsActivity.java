@@ -1,4 +1,4 @@
-package com.example.waheed.bakingapp.ui.details;
+package com.example.waheed.bakingapp.ui.details.recipe;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
@@ -8,8 +8,6 @@ import android.os.Bundle;
 
 import com.example.waheed.bakingapp.R;
 import com.example.waheed.bakingapp.api.vo.Recipe;
-
-import java.io.Serializable;
 
 public class RecipeDetailsActivity extends AppCompatActivity {
 

@@ -7,6 +7,8 @@ import java.io.Serializable;
 
 public class RecipeStep implements Serializable {
 
+    public static final String EXTRA_STEP_ORDER = "extra_step_order";
+
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -25,5 +27,9 @@ public class RecipeStep implements Serializable {
 
     public String getShortDescription() {
         return shortDescription;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

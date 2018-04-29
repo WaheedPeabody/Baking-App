@@ -1,4 +1,4 @@
-package com.example.waheed.bakingapp.ui.details;
+package com.example.waheed.bakingapp.ui.details.recipe;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -15,9 +15,11 @@ import java.util.List;
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder> {
 
     private List<RecipeStep> steps;
+    private final OnStepClickListener stepClickListener;
 
-    public StepAdapter(List<RecipeStep> steps) {
+    public StepAdapter(List<RecipeStep> steps, OnStepClickListener stepClickListener) {
         this.steps = steps;
+        this.stepClickListener = stepClickListener;
     }
 
     @NonNull
@@ -28,10 +30,9 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
         return new StepViewHolder(itemView);
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull StepViewHolder holder, int position) {
-        holder.bindViews(steps.get(position));
+        holder.bindViews(steps.get(position), stepClickListener, position);
     }
 
     @Override
@@ -48,8 +49,9 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
             shortDescriptionTextView = itemView.findViewById(R.id.shortDescriptionTextView);
         }
 
-        public void bindViews(RecipeStep step) {
+        public void bindViews(RecipeStep step, OnStepClickListener stepClickListener, int position) {
             shortDescriptionTextView.setText(step.getShortDescription());
+            itemView.setOnClickListener(view -> stepClickListener.onStepClick(position));
         }
 
     }

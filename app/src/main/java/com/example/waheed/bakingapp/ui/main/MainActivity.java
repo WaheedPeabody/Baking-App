@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import com.example.waheed.bakingapp.R;
 import com.example.waheed.bakingapp.api.vo.Recipe;
-import com.example.waheed.bakingapp.ui.details.RecipeDetailsActivity;
+import com.example.waheed.bakingapp.ui.details.recipe.RecipeDetailsActivity;
 
 public class MainActivity extends AppCompatActivity implements OnRecipeItemClickListener {
 
