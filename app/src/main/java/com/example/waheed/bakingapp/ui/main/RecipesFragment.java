@@ -3,6 +3,7 @@ package com.example.waheed.bakingapp.ui.main;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,18 +43,28 @@ public class RecipesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipes, container, false);
         setupRecyclerView(view);
-
         requestRecipes();
         return view;
     }
 
     public void setupRecyclerView(View view) {
         RecyclerView recipesRecyclerView = view.findViewById(R.id.recipesRecyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(
-                getContext(), LinearLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager layoutManager;
+
+        if (isTabletInLandscape(view)) {
+            layoutManager = new GridLayoutManager(getContext(), 2);
+        } else {
+            layoutManager = new LinearLayoutManager(
+                    getContext(), LinearLayoutManager.VERTICAL, false);
+        }
+
         this.adapter = new RecipesAdapter(new ArrayList<>(), mListener);
         recipesRecyclerView.setLayoutManager(layoutManager);
         recipesRecyclerView.setAdapter(adapter);
+    }
+
+    private boolean isTabletInLandscape(View view) {
+        return view.findViewById(R.id.w900dpRootView) != null;
     }
 
     private void requestRecipes() {
@@ -80,7 +91,7 @@ public class RecipesFragment extends Fragment {
             mListener = (OnRecipeItemClickListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnRecipeItemClickListener");
         }
     }
 
