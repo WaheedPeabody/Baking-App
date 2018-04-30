@@ -1,7 +1,7 @@
 package com.example.waheed.bakingapp.ui.details.recipe;
 
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,17 +13,19 @@ import android.view.ViewGroup;
 
 import com.example.waheed.bakingapp.R;
 import com.example.waheed.bakingapp.api.vo.Recipe;
-import com.example.waheed.bakingapp.api.vo.RecipeStep;
-import com.example.waheed.bakingapp.ui.details.recipe.step.StepDetailsActivity;
 
 /**
  * A simple {@link Fragment} subclass.
+ * * Activities that contain this fragment must implement the
+ * {@link OnStepClickListener} interface
+ * to handle interaction events.
  */
 public class RecipeDetailsFragment extends Fragment {
 
     private static final String PARAM_RECIPE = "param_recipe";
 
     private Recipe recipe;
+    private OnStepClickListener mListener;
 
     public RecipeDetailsFragment() {
         // Required empty public constructor
@@ -60,23 +62,27 @@ public class RecipeDetailsFragment extends Fragment {
         RecyclerView stepsRecyclerView = view.findViewById(R.id.recipeStepsRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(
                 getContext(), LinearLayoutManager.VERTICAL, false);
-        StepAdapter adapter = new StepAdapter(recipe.getSteps(), new OnStepClickListener() {
-            @Override
-            public void onStepClick(int stepOrder) {
-                openStepDetailsActivity(recipe, stepOrder);
-            }
-        });
+        StepAdapter adapter = new StepAdapter(recipe.getSteps(), mListener);
 
         stepsRecyclerView.setLayoutManager(layoutManager);
         stepsRecyclerView.setAdapter(adapter);
     }
 
-    private void openStepDetailsActivity(Recipe recipe, int stepOrder) {
-        Intent intent = new Intent(getContext(), StepDetailsActivity.class);
-        intent.putExtra(Recipe.EXTRA_RECIPE, recipe);
-        intent.putExtra(RecipeStep.EXTRA_STEP_ORDER, stepOrder);
-        getContext().startActivity(intent);
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnStepClickListener) {
+            mListener = (OnStepClickListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnStepClickListener");
+        }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
 }
