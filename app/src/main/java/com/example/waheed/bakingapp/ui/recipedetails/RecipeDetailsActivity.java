@@ -1,4 +1,4 @@
-package com.example.waheed.bakingapp.ui.details.recipe;
+package com.example.waheed.bakingapp.ui.recipedetails;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
@@ -9,9 +9,9 @@ import android.os.Bundle;
 import com.example.waheed.bakingapp.R;
 import com.example.waheed.bakingapp.api.vo.Recipe;
 import com.example.waheed.bakingapp.api.vo.RecipeStep;
-import com.example.waheed.bakingapp.ui.details.recipe.step.StepDetailsActivity;
-import com.example.waheed.bakingapp.ui.details.recipe.step.StepInstructionFragment;
-import com.example.waheed.bakingapp.ui.details.recipe.step.StepVideoFragment;
+import com.example.waheed.bakingapp.ui.recipedetails.step.StepDetailsActivity;
+import com.example.waheed.bakingapp.ui.recipedetails.step.StepInstructionFragment;
+import com.example.waheed.bakingapp.ui.recipedetails.step.StepVideoFragment;
 
 public class RecipeDetailsActivity extends AppCompatActivity implements OnStepClickListener{
 

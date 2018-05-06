@@ -1,4 +1,4 @@
-package com.example.waheed.bakingapp.ui.details.recipe.step;
+package com.example.waheed.bakingapp.ui.recipedetails.step;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

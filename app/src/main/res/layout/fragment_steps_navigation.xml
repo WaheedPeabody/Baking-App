@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    tools:context=".ui.details.recipe.step.StepsNavigationFragment">
+    tools:context=".ui.recipedetails.step.StepsNavigationFragment">
 
     <Button
         android:id="@+id/prevButton"

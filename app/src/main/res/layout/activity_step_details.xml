@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.details.recipe.step.StepDetailsActivity">
+    tools:context=".ui.recipedetails.step.StepDetailsActivity">
 
     <FrameLayout
         android:id="@+id/stepVideoFragmentContainer"

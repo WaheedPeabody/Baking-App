@@ -1,4 +1,4 @@
-package com.example.waheed.bakingapp.ui.main;
+package com.example.waheed.bakingapp.ui.recipes;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

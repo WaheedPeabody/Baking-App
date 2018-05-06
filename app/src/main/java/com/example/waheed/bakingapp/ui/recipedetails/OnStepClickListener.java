@@ -1,4 +1,4 @@
-package com.example.waheed.bakingapp.ui.details.recipe;
+package com.example.waheed.bakingapp.ui.recipedetails;
 
 public interface OnStepClickListener {
     void onStepClick(int stepOrder);

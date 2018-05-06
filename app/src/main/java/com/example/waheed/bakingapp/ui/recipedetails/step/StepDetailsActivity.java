@@ -1,4 +1,4 @@
-package com.example.waheed.bakingapp.ui.details.recipe.step;
+package com.example.waheed.bakingapp.ui.recipedetails.step;
 
 import android.content.Intent;
 import android.content.res.Configuration;

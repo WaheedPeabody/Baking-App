@@ -1,4 +1,4 @@
-package com.example.waheed.bakingapp.ui.main;
+package com.example.waheed.bakingapp.ui.recipes;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import com.example.waheed.bakingapp.R;
 import com.example.waheed.bakingapp.api.vo.Recipe;
-import com.example.waheed.bakingapp.ui.details.recipe.RecipeDetailsActivity;
+import com.example.waheed.bakingapp.ui.recipedetails.RecipeDetailsActivity;
 
 public class MainActivity extends AppCompatActivity implements OnRecipeItemClickListener {
 

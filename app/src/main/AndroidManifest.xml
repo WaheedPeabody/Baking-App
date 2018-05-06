@@ -11,17 +11,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.main.MainActivity">
+        <activity android:name=".ui.recipes.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.details.recipe.RecipeDetailsActivity"
+        <activity android:name=".ui.recipedetails.RecipeDetailsActivity"
             android:label="@string/recipe_details_label"/>
         <activity
-            android:name=".ui.details.recipe.step.StepDetailsActivity"
+            android:name=".ui.recipedetails.step.StepDetailsActivity"
             android:label="@string/recipe_steps_label" />
     </application>
 
