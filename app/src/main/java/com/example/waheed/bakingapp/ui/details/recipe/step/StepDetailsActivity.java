@@ -1,10 +1,12 @@
 package com.example.waheed.bakingapp.ui.details.recipe.step;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.waheed.bakingapp.R;
 import com.example.waheed.bakingapp.api.vo.Recipe;
@@ -27,18 +29,38 @@ public class StepDetailsActivity extends AppCompatActivity implements OnStepNavi
             currentStepPosition = intent.getIntExtra(RecipeStep.EXTRA_STEP_ORDER, 0);
             if (savedInstanceState == null) {
                 RecipeStep step = recipe.getSteps().get(currentStepPosition);
-                displayStepDetailsFragment(step);
+                displayStepInstructionFragment(step);
                 displayStepsNavigationFragment(recipe.getSteps().size(), currentStepPosition);
+                displayStepVideoFragment(step);
             }
+        }
+
+        View stepInstructionView = findViewById(R.id.stepInstructionFragmentContainer);
+        View stepsNavigationView = findViewById(R.id.stepsNavigationFragmentContainer);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            stepInstructionView.setVisibility(View.GONE);
+            stepsNavigationView.setVisibility(View.GONE);
+        } else {
+            stepInstructionView.setVisibility(View.VISIBLE);
+            stepsNavigationView.setVisibility(View.VISIBLE);
         }
 
     }
 
-    private void displayStepDetailsFragment(RecipeStep step) {
+    private void displayStepVideoFragment(RecipeStep step) {
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
+        StepVideoFragment fragment = StepVideoFragment.newInstance(step);
+        fragmentTransaction.add(R.id.stepVideoFragmentContainer, fragment);
+        fragmentTransaction.commit();
+    }
+
+    private void displayStepInstructionFragment(RecipeStep step) {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
         StepInstructionFragment fragment = StepInstructionFragment.newInstance(step);
-        fragmentTransaction.add(R.id.stepDetailsFragmentContainer, fragment);
+        fragmentTransaction.add(R.id.stepInstructionFragmentContainer, fragment);
         fragmentTransaction.commit();
     }
 
@@ -60,10 +82,13 @@ public class StepDetailsActivity extends AppCompatActivity implements OnStepNavi
                 StepInstructionFragment.newInstance(recipe.getSteps().get(navigateToStepAtPosition));
         StepsNavigationFragment stepsNavigationFragment =
                 StepsNavigationFragment.newInstance(recipe.getSteps().size(), navigateToStepAtPosition);
+        StepVideoFragment stepVideoFragment =
+                StepVideoFragment.newInstance(recipe.getSteps().get(navigateToStepAtPosition));
 
         fragmentTransaction
-                .replace(R.id.stepDetailsFragmentContainer, stepInstructionFragment)
-                .replace(R.id.stepsNavigationFragmentContainer, stepsNavigationFragment);
+                .replace(R.id.stepInstructionFragmentContainer, stepInstructionFragment)
+                .replace(R.id.stepsNavigationFragmentContainer, stepsNavigationFragment)
+                .replace(R.id.stepVideoFragmentContainer, stepVideoFragment);
 
         if (goingForward) {
             fragmentTransaction.addToBackStack(null);

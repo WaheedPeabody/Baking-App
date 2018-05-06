@@ -11,6 +11,7 @@ import com.example.waheed.bakingapp.api.vo.Recipe;
 import com.example.waheed.bakingapp.api.vo.RecipeStep;
 import com.example.waheed.bakingapp.ui.details.recipe.step.StepDetailsActivity;
 import com.example.waheed.bakingapp.ui.details.recipe.step.StepInstructionFragment;
+import com.example.waheed.bakingapp.ui.details.recipe.step.StepVideoFragment;
 
 public class RecipeDetailsActivity extends AppCompatActivity implements OnStepClickListener{
 
@@ -28,7 +29,9 @@ public class RecipeDetailsActivity extends AppCompatActivity implements OnStepCl
         if (savedInstanceState == null) {
             displayRecipeDetailsFragment(recipe);
             if (isTabletInLandscape()) {
-                displayStepInstructionFragment(recipe.getSteps().get(0));
+                RecipeStep step = recipe.getSteps().get(1);
+                displayStepVideoFragment(step);
+                displayStepInstructionFragment(step);
             }
         }
     }
@@ -45,6 +48,14 @@ public class RecipeDetailsActivity extends AppCompatActivity implements OnStepCl
         fragmentTransaction.commit();
     }
 
+    private void displayStepVideoFragment(RecipeStep step) {
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
+        StepVideoFragment fragment = StepVideoFragment.newInstance(step);
+        fragmentTransaction.replace(R.id.stepVideoFragmentContainer, fragment);
+        fragmentTransaction.commit();
+    }
+
     private void displayStepInstructionFragment(RecipeStep step) {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
@@ -56,7 +67,9 @@ public class RecipeDetailsActivity extends AppCompatActivity implements OnStepCl
     @Override
     public void onStepClick(int stepOrder) {
         if (isTabletInLandscape()) {
-            displayStepInstructionFragment(recipe.getSteps().get(stepOrder));
+            RecipeStep step = recipe.getSteps().get(stepOrder);
+            displayStepInstructionFragment(step);
+            displayStepVideoFragment(step);
         } else {
             openStepDetailsActivity(recipe, stepOrder);
         }

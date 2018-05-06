@@ -32,4 +32,8 @@ public class RecipeStep implements Serializable {
     public String getDescription() {
         return description;
     }
+
+    public String getVideoURL() {
+        return videoURL;
+    }
 }
