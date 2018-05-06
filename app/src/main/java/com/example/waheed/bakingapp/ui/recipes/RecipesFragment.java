@@ -12,16 +12,10 @@ import android.view.ViewGroup;
 
 import com.example.waheed.bakingapp.api.Api;
 import com.example.waheed.bakingapp.R;
-import com.example.waheed.bakingapp.api.vo.Recipe;
 import com.example.waheed.bakingapp.data.RecipesRepository;
+import com.example.waheed.bakingapp.utils.EspressoIdlingResource;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,7 +64,11 @@ public class RecipesFragment extends Fragment {
 
     private void requestRecipes() {
         RecipesRepository repository = RecipesRepository.getInstance(Api.create());
-        repository.loadRecipes(recipes -> adapter.setRecipes(recipes));
+        EspressoIdlingResource.increment();
+        repository.loadRecipes(recipes -> {
+            adapter.setRecipes(recipes);
+            EspressoIdlingResource.decrement();
+        });
     }
 
     @Override

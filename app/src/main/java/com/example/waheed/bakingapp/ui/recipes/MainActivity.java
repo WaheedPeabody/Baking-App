@@ -1,6 +1,8 @@
 package com.example.waheed.bakingapp.ui.recipes;
 
 import android.content.Intent;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +11,7 @@ import android.os.Bundle;
 import com.example.waheed.bakingapp.R;
 import com.example.waheed.bakingapp.api.vo.Recipe;
 import com.example.waheed.bakingapp.ui.recipedetails.RecipeDetailsActivity;
+import com.example.waheed.bakingapp.utils.EspressoIdlingResource;
 
 public class MainActivity extends AppCompatActivity implements OnRecipeItemClickListener {
 
@@ -35,5 +38,10 @@ public class MainActivity extends AppCompatActivity implements OnRecipeItemClick
         Intent intent = new Intent(this, RecipeDetailsActivity.class);
         intent.putExtra(Recipe.EXTRA_RECIPE, recipe);
         startActivity(intent);
+    }
+
+    @VisibleForTesting
+    public IdlingResource getCountingIdlingResource() {
+        return EspressoIdlingResource.getIdlingResource();
     }
 }
