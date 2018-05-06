@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.example.waheed.bakingapp.api.Api;
 import com.example.waheed.bakingapp.R;
 import com.example.waheed.bakingapp.api.vo.Recipe;
+import com.example.waheed.bakingapp.data.RecipesRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,20 +69,8 @@ public class RecipesFragment extends Fragment {
     }
 
     private void requestRecipes() {
-        Api api = Api.create();
-        Call<List<Recipe>> call = api.getRecipes();
-        call.enqueue(new Callback<List<Recipe>>() {
-            @Override
-            public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
-                List<Recipe> recipes = response.body();
-                adapter.setRecipes(recipes);
-            }
-
-            @Override
-            public void onFailure(Call<List<Recipe>> call, Throwable t) {
-
-            }
-        });
+        RecipesRepository repository = RecipesRepository.getInstance(Api.create());
+        repository.loadRecipes(recipes -> adapter.setRecipes(recipes));
     }
 
     @Override
