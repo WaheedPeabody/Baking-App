@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.waheed.bakingapp.api.Api;
+import com.example.waheed.bakingapp.Injection;
 import com.example.waheed.bakingapp.R;
 import com.example.waheed.bakingapp.data.RecipesRepository;
 import com.example.waheed.bakingapp.utils.EspressoIdlingResource;
@@ -63,7 +63,7 @@ public class RecipesFragment extends Fragment {
     }
 
     private void requestRecipes() {
-        RecipesRepository repository = RecipesRepository.getInstance(Api.create());
+        RecipesRepository repository = Injection.provideRecipesRepository();
         EspressoIdlingResource.increment();
         repository.loadRecipes(recipes -> {
             adapter.setRecipes(recipes);
