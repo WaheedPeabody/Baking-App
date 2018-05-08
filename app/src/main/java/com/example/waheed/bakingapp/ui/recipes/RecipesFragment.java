@@ -1,5 +1,6 @@
 package com.example.waheed.bakingapp.ui.recipes;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -64,9 +65,18 @@ public class RecipesFragment extends Fragment {
 
     private void requestRecipes() {
         RecipesRepository repository = Injection.provideRecipesRepository();
+
+        RecipesViewModelFactory viewModelFactory = new RecipesViewModelFactory(repository);
+        RecipesViewModel recipesViewModel = ViewModelProviders
+                .of(this, viewModelFactory)
+                .get(RecipesViewModel.class);
+
         EspressoIdlingResource.increment();
-        repository.loadRecipes(recipes -> {
+
+        recipesViewModel.getRecipesLive()
+        .observe(this, recipes -> {
             adapter.setRecipes(recipes);
+
             EspressoIdlingResource.decrement();
         });
     }
