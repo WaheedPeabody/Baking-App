@@ -10,13 +10,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.waheed.bakingapp.Injection;
 import com.example.waheed.bakingapp.R;
+import com.example.waheed.bakingapp.api.vo.Recipe;
 import com.example.waheed.bakingapp.data.RecipesRepository;
 import com.example.waheed.bakingapp.utils.EspressoIdlingResource;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +32,8 @@ public class RecipesFragment extends Fragment {
     private OnRecipeItemClickListener mListener;
     private RecipesAdapter adapter;
 
+    private View progressBar;
+
     public RecipesFragment() {
         // Required empty public constructor
     }
@@ -38,6 +43,8 @@ public class RecipesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipes, container, false);
+        progressBar = view.findViewById(R.id.progressBar);
+
         setupRecyclerView(view);
         requestRecipes();
         return view;
@@ -73,12 +80,23 @@ public class RecipesFragment extends Fragment {
 
         EspressoIdlingResource.increment();
 
+        recipesViewModel.getIsLoadingLive()
+                .observe(this, isLoading -> showLoading(isLoading));
         recipesViewModel.getRecipesLive()
         .observe(this, recipes -> {
-            adapter.setRecipes(recipes);
+            showData(recipes);
 
             EspressoIdlingResource.decrement();
         });
+    }
+
+    private void showLoading(boolean isLoading) {
+        if (isLoading) progressBar.setVisibility(View.VISIBLE);
+        else progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    private void showData(List<Recipe> recipes) {
+        adapter.setRecipes(recipes);
     }
 
     @Override
