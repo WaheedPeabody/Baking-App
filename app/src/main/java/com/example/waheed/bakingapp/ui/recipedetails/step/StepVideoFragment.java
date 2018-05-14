@@ -63,8 +63,13 @@ public class StepVideoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_step_video, container, false);
         exoPlayerView = (SimpleExoPlayerView) view.findViewById(R.id.playerView);
-        initializePlayer(Uri.parse(step.getVideoURL()));
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        initializePlayer(Uri.parse(step.getVideoURL()));
     }
 
     private void initializePlayer(Uri mediaUri) {
@@ -89,19 +94,16 @@ public class StepVideoFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        releasePlayer();
+    }
+
     private void releasePlayer() {
         exoPlayer.stop();
         exoPlayer.release();
         exoPlayer = null;
     }
 
-    /**
-     * Called when the fragment is no longer in use.  This is called
-     * after {@link #onStop()} and before {@link #onDetach()}.
-     */
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        releasePlayer();
-    }
 }

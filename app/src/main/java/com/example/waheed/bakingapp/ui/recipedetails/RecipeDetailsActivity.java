@@ -29,7 +29,7 @@ public class RecipeDetailsActivity extends AppCompatActivity implements OnStepCl
         if (savedInstanceState == null) {
             displayRecipeDetailsFragment(recipe);
             if (isTabletInLandscape()) {
-                RecipeStep step = recipe.getSteps().get(1);
+                RecipeStep step = recipe.getSteps().get(0);
                 displayStepVideoFragment(step);
                 displayStepInstructionFragment(step);
             }
