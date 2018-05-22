@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 public class Recipe implements Serializable {
@@ -29,6 +30,10 @@ public class Recipe implements Serializable {
     @Expose
     private String image;
 
+    public Integer getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -39,5 +44,14 @@ public class Recipe implements Serializable {
 
     public List<RecipeStep> getSteps() {
         return steps;
+    }
+
+    public List<Ingredient> getIngredients() {
+        return Collections.unmodifiableList(ingredients);
+    }
+
+    public Recipe(String name, List<Ingredient> ingredients) {
+        this.name = name;
+        this.ingredients = ingredients;
     }
 }

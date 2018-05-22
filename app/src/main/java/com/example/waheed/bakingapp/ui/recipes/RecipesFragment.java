@@ -1,6 +1,8 @@
 package com.example.waheed.bakingapp.ui.recipes;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,15 +12,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.example.waheed.bakingapp.Injection;
 import com.example.waheed.bakingapp.R;
 import com.example.waheed.bakingapp.api.vo.Recipe;
 import com.example.waheed.bakingapp.data.RecipesRepository;
+import com.example.waheed.bakingapp.database.RecipeContract;
+import com.example.waheed.bakingapp.database.RecipesProvider;
 import com.example.waheed.bakingapp.utils.EspressoIdlingResource;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -84,10 +88,21 @@ public class RecipesFragment extends Fragment {
                 .observe(this, isLoading -> showLoading(isLoading));
         recipesViewModel.getRecipesLive()
         .observe(this, recipes -> {
+            persistRecipes(recipes);
             showData(recipes);
-
             EspressoIdlingResource.decrement();
         });
+    }
+
+    private void persistRecipes(List<Recipe> recipes) {
+        ContentResolver contentResolver = getContext().getContentResolver();
+        for (Recipe recipe : recipes) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(RecipeContract.COLUMN_RECIPE_ID, recipe.getId());
+            contentValues.put(RecipeContract.COLUMN_NAME, recipe.getName());
+            contentValues.put(RecipeContract.COLUMN_INGREDIENTS, recipe.getIngredients().toString());
+            contentResolver.insert(RecipesProvider.Recipes.RECIPES_URI, contentValues);
+        }
     }
 
     private void showLoading(boolean isLoading) {

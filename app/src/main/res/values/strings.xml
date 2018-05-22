@@ -8,4 +8,6 @@
     <string name="next_button_label">Next</string>
     <string name="recipe_details_label">Recipe Details</string>
     <string name="recipe_steps_label">Recipe Steps</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>

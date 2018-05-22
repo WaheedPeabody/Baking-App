@@ -17,4 +17,8 @@ public class Ingredient implements Serializable {
     @Expose
     private String ingredient;
 
+    @Override
+    public String toString() {
+        return quantity + " " + measure + ": " + ingredient +"\n";
+    }
 }
