@@ -126,7 +126,7 @@ public class FakeRecipesServiceApiImpl implements RecipesServiceApi {
                     "      }\n" +
                     "    ],\n" +
                     "    \"servings\": 8,\n" +
-                    "    \"image\": \"\"\n" +
+                    "    \"image\": \"https://scontent.fcai1-1.fna.fbcdn.net/v/t1.0-9/10320369_10203176963840906_1800710349671845463_n.jpg?_nc_cat=0&_nc_eui2=AeG6IcBrKou3RFXlgu9hU6Pf_462JHB12noCz21evXciuQ9SmpVsUHfAJkGHh5XtkwJ4t5VX1Ra0MXh7tXdut5-E3OUTkZLlsRfvPEW9S3ODtQ&oh=504981c7c5582cca636bc04491221d53&oe=5B773E67\"\n" +
                     "  },\n" +
                     "  {\n" +
                     "    \"id\": 2,\n" +

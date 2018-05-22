@@ -30,6 +30,11 @@ public class Recipe implements Serializable {
     @Expose
     private String image;
 
+    public Recipe(String name, List<Ingredient> ingredients) {
+        this.name = name;
+        this.ingredients = ingredients;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -50,8 +55,7 @@ public class Recipe implements Serializable {
         return Collections.unmodifiableList(ingredients);
     }
 
-    public Recipe(String name, List<Ingredient> ingredients) {
-        this.name = name;
-        this.ingredients = ingredients;
+    public String getImage() {
+        return image;
     }
 }

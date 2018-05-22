@@ -2,13 +2,16 @@ package com.example.waheed.bakingapp.ui.recipes;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.waheed.bakingapp.R;
 import com.example.waheed.bakingapp.api.vo.Recipe;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -49,12 +52,14 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipeVi
 
         private final TextView nameTextView;
         private final TextView servingsNumberTextView;
+        private final ImageView imageImageView;
         private final OnRecipeItemClickListener listener;
 
         public RecipeViewHolder(View itemView, OnRecipeItemClickListener listener) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.nameTextView);
             servingsNumberTextView = itemView.findViewById(R.id.servingsNumberTextView);
+            imageImageView = itemView.findViewById(R.id.recipeImageImageView);
             this.listener = listener;
         }
 
@@ -67,6 +72,14 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipeVi
                     listener.onRecipeItemClick(recipe);
                 }
             });
+
+            // load recipe image if possible
+            if (!TextUtils.isEmpty(recipe.getImage())) {
+                imageImageView.setVisibility(View.VISIBLE);
+                Picasso.get().load(recipe.getImage()).into(imageImageView);
+            } else {
+                imageImageView.setVisibility(View.GONE);
+            }
         }
     }
 
