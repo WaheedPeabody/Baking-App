@@ -53,6 +53,8 @@ dependencies {
 
     implementation "com.android.support.test.espresso:espresso-idling-resource:3.0.2"
 
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
     annotationProcessor 'net.simonvt.schematic:schematic-compiler:0.7.0'
     implementation 'net.simonvt.schematic:schematic:0.7.0'
 

@@ -4,31 +4,39 @@ package com.example.waheed.bakingapp.ui.recipedetails.step;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.waheed.bakingapp.R;
 import com.example.waheed.bakingapp.api.vo.RecipeStep;
 import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link StepVideoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class StepVideoFragment extends Fragment {
+public class StepVideoFragment extends Fragment implements ExoPlayer.EventListener {
 
     private static final String ARG_STEP = "step";
 
@@ -36,6 +44,7 @@ public class StepVideoFragment extends Fragment {
 
     private SimpleExoPlayer exoPlayer;
     private SimpleExoPlayerView exoPlayerView;
+    private ImageView thumbnailImageView;
 
     public StepVideoFragment() {
         // Required empty public constructor
@@ -62,8 +71,18 @@ public class StepVideoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_step_video, container, false);
+        thumbnailImageView = view.findViewById(R.id.thumbnailImageView);
+        loadThumbnailImageIfExist(step.getThumbnailURL(), thumbnailImageView);
+
         exoPlayerView = (SimpleExoPlayerView) view.findViewById(R.id.playerView);
         return view;
+    }
+
+    private void loadThumbnailImageIfExist(String thumbnailURL, ImageView thumbnailImageView) {
+        if (TextUtils.isEmpty(thumbnailURL)) {
+            return;
+        }
+        Picasso.get().load(thumbnailURL).into(thumbnailImageView);
     }
 
     @Override
@@ -73,6 +92,15 @@ public class StepVideoFragment extends Fragment {
     }
 
     private void initializePlayer(Uri mediaUri) {
+        if (TextUtils.isEmpty(mediaUri.toString())) {
+            exoPlayerView.setVisibility(View.GONE);
+            thumbnailImageView.setVisibility(View.VISIBLE);
+            return;
+        }
+
+        exoPlayerView.setVisibility(View.VISIBLE);
+        thumbnailImageView.setVisibility(View.GONE);
+
         if (exoPlayer == null) {
 
             // Create an instance of the ExoPlayer.
@@ -91,6 +119,7 @@ public class StepVideoFragment extends Fragment {
                     new DefaultExtractorsFactory(), null, null);
             exoPlayer.prepare(mediaSource);
             exoPlayer.setPlayWhenReady(true);
+            exoPlayer.addListener(this);
         }
     }
 
@@ -101,9 +130,36 @@ public class StepVideoFragment extends Fragment {
     }
 
     private void releasePlayer() {
-        exoPlayer.stop();
-        exoPlayer.release();
-        exoPlayer = null;
+        if (exoPlayer != null) {
+            exoPlayer.stop();
+            exoPlayer.release();
+            exoPlayer = null;
+        }
     }
 
+    @Override
+    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+        if (playbackState == exoPlayer.STATE_IDLE) {
+            exoPlayerView.setVisibility(View.GONE);
+            thumbnailImageView.setVisibility(View.VISIBLE);
+        } else {
+            exoPlayerView.setVisibility(View.VISIBLE);
+            thumbnailImageView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onTimelineChanged(Timeline timeline, Object manifest) {}
+
+    @Override
+    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {}
+
+    @Override
+    public void onLoadingChanged(boolean isLoading) {}
+
+    @Override
+    public void onPlayerError(ExoPlaybackException error) {}
+
+    @Override
+    public void onPositionDiscontinuity() {}
 }

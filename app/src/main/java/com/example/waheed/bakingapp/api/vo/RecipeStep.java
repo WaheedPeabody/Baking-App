@@ -36,4 +36,8 @@ public class RecipeStep implements Serializable {
     public String getVideoURL() {
         return videoURL;
     }
+
+    public String getThumbnailURL() {
+        return thumbnailURL;
+    }
 }
