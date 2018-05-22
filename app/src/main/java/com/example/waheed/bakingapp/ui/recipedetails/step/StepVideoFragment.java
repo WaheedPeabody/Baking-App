@@ -3,6 +3,7 @@ package com.example.waheed.bakingapp.ui.recipedetails.step;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -40,7 +41,15 @@ public class StepVideoFragment extends Fragment implements ExoPlayer.EventListen
 
     private static final String ARG_STEP = "step";
 
+    private static final String KEY_PLAYBACK_CURRENT_POSITION = "current_position";
+
+    private static final String KEY_PLAY_WHEN_READY = "play_when_ready";
+
     private RecipeStep step;
+
+    private long playbackCurrentPosition;
+
+    private boolean playWhenReady = true;
 
     private SimpleExoPlayer exoPlayer;
     private SimpleExoPlayerView exoPlayerView;
@@ -63,6 +72,12 @@ public class StepVideoFragment extends Fragment implements ExoPlayer.EventListen
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             step = (RecipeStep) getArguments().getSerializable(ARG_STEP);
+        }
+
+        // restore playback position
+        if (savedInstanceState != null) {
+            playbackCurrentPosition = savedInstanceState.getLong(KEY_PLAYBACK_CURRENT_POSITION);
+            playWhenReady = savedInstanceState.getBoolean(KEY_PLAY_WHEN_READY);
         }
     }
 
@@ -118,7 +133,8 @@ public class StepVideoFragment extends Fragment implements ExoPlayer.EventListen
                     new DefaultDataSourceFactory(getContext(), userAgent),
                     new DefaultExtractorsFactory(), null, null);
             exoPlayer.prepare(mediaSource);
-            exoPlayer.setPlayWhenReady(true);
+            exoPlayer.seekTo(playbackCurrentPosition);
+            exoPlayer.setPlayWhenReady(playWhenReady);
             exoPlayer.addListener(this);
         }
     }
@@ -126,6 +142,7 @@ public class StepVideoFragment extends Fragment implements ExoPlayer.EventListen
     @Override
     public void onStop() {
         super.onStop();
+        playbackCurrentPosition = exoPlayer.getCurrentPosition();
         releasePlayer();
     }
 
@@ -138,7 +155,18 @@ public class StepVideoFragment extends Fragment implements ExoPlayer.EventListen
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (exoPlayer != null) {
+            playbackCurrentPosition = exoPlayer.getCurrentPosition();
+            outState.putLong(KEY_PLAYBACK_CURRENT_POSITION, playbackCurrentPosition);
+            outState.putBoolean(KEY_PLAY_WHEN_READY, playWhenReady);
+        }
+    }
+
+    @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+        this.playWhenReady = playWhenReady;
         if (playbackState == exoPlayer.STATE_IDLE) {
             exoPlayerView.setVisibility(View.GONE);
             thumbnailImageView.setVisibility(View.VISIBLE);
