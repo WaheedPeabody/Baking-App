@@ -58,4 +58,9 @@ public class Recipe implements Serializable {
     public String getImage() {
         return image;
     }
+
+    public String getIngredientsAsString() {
+        return ingredients.toString();
+    }
+
 }

@@ -17,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.waheed.bakingapp.R;
@@ -74,6 +75,9 @@ public class RecipeDetailsFragment extends Fragment {
                 R.drawable.sharp_favorite_black_24dp :
                 R.drawable.sharp_favorite_border_white_24dp);
         setupRecyclerView(view);
+
+        TextView ingredientTextView = view.findViewById(R.id.ingredientsTextView);
+        ingredientTextView.setText(recipe.getIngredientsAsString());
         return view;
     }
 
