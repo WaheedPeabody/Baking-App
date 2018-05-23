@@ -10,4 +10,6 @@
     <string name="recipe_steps_label">Recipe Steps</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="added_to_favorites">added to favorites</string>
+    <string name="removed_from_favorites">Removed from favorites</string>
 </resources>

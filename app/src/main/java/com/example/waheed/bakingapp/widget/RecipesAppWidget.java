@@ -31,7 +31,6 @@ public class RecipesAppWidget extends AppWidgetProvider {
         Intent serviceIntent = new Intent(context, GridWidgetService.class);
         views.setRemoteAdapter(R.id.widgetGridView, serviceIntent);
 
-
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -39,6 +38,7 @@ public class RecipesAppWidget extends AppWidgetProvider {
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widgetGridView);
     }
 
     @Override

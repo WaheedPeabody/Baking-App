@@ -88,21 +88,9 @@ public class RecipesFragment extends Fragment {
                 .observe(this, isLoading -> showLoading(isLoading));
         recipesViewModel.getRecipesLive()
         .observe(this, recipes -> {
-            persistRecipes(recipes);
             showData(recipes);
             EspressoIdlingResource.decrement();
         });
-    }
-
-    private void persistRecipes(List<Recipe> recipes) {
-        ContentResolver contentResolver = getContext().getContentResolver();
-        for (Recipe recipe : recipes) {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(RecipeContract.COLUMN_RECIPE_ID, recipe.getId());
-            contentValues.put(RecipeContract.COLUMN_NAME, recipe.getName());
-            contentValues.put(RecipeContract.COLUMN_INGREDIENTS, recipe.getIngredients().toString());
-            contentResolver.insert(RecipesProvider.Recipes.RECIPES_URI, contentValues);
-        }
     }
 
     private void showLoading(boolean isLoading) {
